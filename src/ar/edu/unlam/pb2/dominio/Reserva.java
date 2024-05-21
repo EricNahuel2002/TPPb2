@@ -8,6 +8,7 @@ public class Reserva {
 	private Integer id;
 	private LocalDate dia;
 	private LocalTime hora;
+	private Empleado mesero;
 
 	public Reserva(Integer id, LocalDate dia, LocalTime hora) {
 		this.id = id;
