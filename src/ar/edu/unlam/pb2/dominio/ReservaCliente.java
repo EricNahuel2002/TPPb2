@@ -2,17 +2,18 @@ package ar.edu.unlam.pb2.dominio;
 
 public class ReservaCliente {
 	
-	private Reserva reserva;
+	private Pedido pedido;
 	private Cliente cliente;
 	private Empleado mesero;
+	//que una pedido tenga una COLECCION DE MESEROS
 
-	public ReservaCliente(Reserva reserva, Cliente cliente) {
-		this.reserva = reserva;
+	public ReservaCliente(Pedido pedido, Cliente cliente) {
+		this.pedido = pedido;
 		this.cliente = cliente;
 	}
 
-	public Reserva getReserva() {
-		return reserva;
+	public Pedido getReserva() {
+		return pedido;
 	}
 
 	public Cliente getCliente() {

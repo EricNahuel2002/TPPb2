@@ -3,14 +3,14 @@ package ar.edu.unlam.pb2.dominio;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Reserva {
+public class Pedido {
 
 	private Integer id;
 	private LocalDate dia;
 	private LocalTime hora;
 	private Empleado mesero;
 
-	public Reserva(Integer id, LocalDate dia, LocalTime hora) {
+	public Pedido(Integer id, LocalDate dia, LocalTime hora) {
 		this.id = id;
 		this.dia = dia;
 		this.hora = hora;

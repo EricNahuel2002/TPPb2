@@ -8,6 +8,8 @@ public abstract class Empleado {
 	private String nombre;
 	private Double sueldo;
 	private LocalDate anioIngreso;
+	//valor x hora Double
+	//cantidad de horas Integer
 	
 	
 	public Empleado(Integer codigo, String nombre, Double sueldo, LocalDate anioIngreso) {

@@ -10,15 +10,15 @@ public class Restaurante implements IRestaurante{
 	private String nombre;
 	private List<Empleado> empleados;
 	private List<Cliente> clientes;
-	private List<Reserva> reservas;
-	private List<ReservaCliente> reservasClientes;
+	private List<Pedido> pedidos;
+	private List<ReservaCliente> pedidosClientes;
 
 	public Restaurante(String nombreRestaurante) {
 		this.nombre = nombreRestaurante;
 		this.empleados = new ArrayList<>();
 		this.clientes = new ArrayList<>();
-		this.reservas = new ArrayList<>();
-		this.reservasClientes = new ArrayList<>();
+		this.pedidos = new ArrayList<>();
+		this.pedidosClientes = new ArrayList<>();
 	}
 	//cantidad de veces que un cliente fue al restaurante
 	//coleccion de clientes
@@ -56,13 +56,17 @@ public class Restaurante implements IRestaurante{
 	@Override
 	public List<Empleado> obtenerListaDeEncargadosOrdenadoDeMayorAMenorPorSueldo() {
 		List<Empleado> encargados = this.obtenerEncargados();
-		Collections.sort(encargados, (o1, o2) -> o2.getSueldo().compareTo(o1.getSueldo()));
+		ordenarEmpleados(encargados);
 		return encargados;
+	}
+
+	private void ordenarEmpleados(List<Empleado> encargados) {
+		Collections.sort(encargados, (o1, o2) -> o2.getSueldo().compareTo(o1.getSueldo()));
 	}
 	@Override
 	public List<Empleado> obtenerListaDeMeserosOrdenadoDeMayorAMenorPorSueldo() {
 		List<Empleado> meseros = this.obtenerMeseros();
-		Collections.sort(meseros, (o1, o2) -> o2.getSueldo().compareTo(o1.getSueldo()));
+		ordenarEmpleados(meseros);
 		return meseros;
 	}
 	private List<Empleado> obtenerMeseros() {
@@ -77,7 +81,7 @@ public class Restaurante implements IRestaurante{
 	@Override
 	public List<Empleado> obtenerListaDeCajerosOrdenadoDeMayorAMenorPorSueldo() {
 		List<Empleado> cajeros = this.obtenerCajeros();
-		Collections.sort(cajeros, (o1, o2) -> o2.getSueldo().compareTo(o1.getSueldo()));
+		ordenarEmpleados(cajeros);
 		return cajeros;
 	}
 	private List<Empleado> obtenerCajeros() {
@@ -91,8 +95,8 @@ public class Restaurante implements IRestaurante{
 	}
 	@Override
 	public Empleado obtenerElMeseroDelMes() {
-		Empleado mesero = reservasClientes.get(0).getMesero();
-		for(ReservaCliente rc: reservasClientes) {
+		Empleado mesero = pedidosClientes.get(0).getMesero();
+		for(ReservaCliente rc: pedidosClientes) {
 			if(((Mesero) rc.getMesero()).getCantidadDePedidosTomados() > ((Mesero) mesero).getCantidadDePedidosTomados()) {
 				mesero = rc.getMesero();
 			}
@@ -102,7 +106,7 @@ public class Restaurante implements IRestaurante{
 	@Override
 	public HashSet<Cliente> obtenerLaCantidadDeClientesQueFueronAlRestaurante() {
 		HashSet<Cliente> clientes = new HashSet<>();
-		for(ReservaCliente rc: reservasClientes) {
+		for(ReservaCliente rc: pedidosClientes) {
 			clientes.add(rc.getCliente());
 		}
 		return clientes;
@@ -127,30 +131,33 @@ public class Restaurante implements IRestaurante{
 	}
 
 	@Override
-	public Boolean agregarReserva(Reserva reserva) {
-		return reservas.add(reserva);
+	public Boolean agregarReserva(Pedido pedido) {
+		return pedidos.add(pedido);
 	}
 
-	public Boolean realizarReservaCliente(Reserva reserva, Cliente cliente) {
-		Reserva reservaEncontrada = this.buscarReserva(reserva.getId());
+	public Boolean realizarReservaCliente(Pedido pedido, Cliente cliente) {
+		Pedido pedidoEncontrada = this.buscarReserva(pedido.getId());
 		Cliente clienteEncontrado = this.buscarUnCliente(cliente.getNumero());
-		if(reservaEncontrada != null && clienteEncontrado != null) {
-			ReservaCliente rc = new ReservaCliente(reservaEncontrada,clienteEncontrado);
-			return reservasClientes.add(rc);
+		//buscar pedidocliente
+				//if(pedidoClienteEncontrada == null){
+				// return false
+		if(pedidoEncontrada != null && clienteEncontrado != null) {
+			ReservaCliente rc = new ReservaCliente(pedidoEncontrada,clienteEncontrado);
+			return pedidosClientes.add(rc);
 		}
 		return false;
 	}
-	private Reserva buscarReserva(Integer id) {
-		for(Reserva reserva: reservas) {
-			if(reserva.getId().equals(id)) {
-				return reserva;
+	private Pedido buscarReserva(Integer id) {
+		for(Pedido pedido: pedidos) {
+			if(pedido.getId().equals(id)) {
+				return pedido;
 			}
 		}
 		return null;
 	}
 
 	public Boolean agregarReservaCliente(ReservaCliente rc) {
-		return reservasClientes.add(rc);
+		return pedidosClientes.add(rc);
 	}
 
 	public List<Empleado> obtenerEncargados() {
@@ -163,19 +170,22 @@ public class Restaurante implements IRestaurante{
 		return encargados;
 	}
 
-	public List<Reserva> obtenerHistorialDeReservasDeUnCliente(Cliente cliente) {
-		List<Reserva> reservasDeUnCliente = new ArrayList<>();
-		for(ReservaCliente rc:reservasClientes) {
+	public List<Pedido> obtenerHistorialDeReservasDeUnCliente(Cliente cliente) {
+		List<Pedido> pedidosDeUnCliente = new ArrayList<>();
+		for(ReservaCliente rc:pedidosClientes) {
 			if(rc.getCliente().equals(cliente)) {
-				reservasDeUnCliente.add(rc.getReserva());
+				pedidosDeUnCliente.add(rc.getReserva());
 			}
 		}
-		return reservasDeUnCliente;
+		return pedidosDeUnCliente;
 	}
+	
+	//									pedido  n----n clientes sale clase intermedia
+	//									en 
 
-	public Boolean queUnMeseroTomeUnaReservaCliente(Reserva reserva, Cliente cliente, Empleado mesero) {
-		for(ReservaCliente rc: reservasClientes) {
-			if(rc.getReserva().equals(reserva) && rc.getCliente().equals(cliente)) {
+	public Boolean queUnMeseroTomeUnaReservaCliente(Pedido pedido, Cliente cliente, Empleado mesero) {
+		for(ReservaCliente rc: pedidosClientes) {
+			if(rc.getReserva().equals(pedido) && rc.getCliente().equals(cliente)) {
 				rc.setMesero(mesero);
 				((Mesero) mesero).incrementarCantidadDePedidosTomados();
 				return true;

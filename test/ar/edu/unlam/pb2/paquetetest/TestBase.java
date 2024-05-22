@@ -120,7 +120,7 @@ public class TestBase {
 	@Test
 	public void queSePuedaAgregarUnaReservaAlRestaurante() {
 		Integer id = 213;
-		Reserva reserva = new Reserva(id,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva = new Pedido(id,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
 		
 		Boolean reservaAgregada = restaurante.agregarReserva(reserva);
 		
@@ -138,7 +138,7 @@ public class TestBase {
 
 	@Test
 	public void queUnClientePuedaHacerUnaReserva() {
-		Reserva reserva = new Reserva(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva = new Pedido(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
 		restaurante.agregarReserva(reserva);
 		Cliente cliente = new Cliente(1,"Juan");
 		restaurante.agregarCliente(cliente);
@@ -232,10 +232,10 @@ public class TestBase {
 	@Test
 	public void queSePuedaSaberCuantasVecesUnClienteVinoEnUnaSemana() {
 		// almacenar cuantas reservas tiene
-		Reserva reserva = new Reserva(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
-		Reserva reserva2 = new Reserva(2,LocalDate.of(2024, 7, 5),LocalTime.of(16, 0));
-		Reserva reserva3 = new Reserva(3,LocalDate.of(2024, 9, 6),LocalTime.of(16, 0));
-		Reserva reserva4 = new Reserva(4,LocalDate.of(2024, 9, 20),LocalTime.of(16, 0));
+		Pedido reserva = new Pedido(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva2 = new Pedido(2,LocalDate.of(2024, 7, 5),LocalTime.of(16, 0));
+		Pedido reserva3 = new Pedido(3,LocalDate.of(2024, 9, 6),LocalTime.of(16, 0));
+		Pedido reserva4 = new Pedido(4,LocalDate.of(2024, 9, 20),LocalTime.of(16, 0));
 		restaurante.agregarReserva(reserva);
 		restaurante.agregarReserva(reserva2);
 		restaurante.agregarReserva(reserva3);
@@ -249,7 +249,7 @@ public class TestBase {
 		restaurante.realizarReservaCliente(reserva2,cliente);
 		restaurante.realizarReservaCliente(reserva3,cliente);
 		
-		List<Reserva> reservasObtenidasHechasPorUnCliente = restaurante.obtenerHistorialDeReservasDeUnCliente(cliente);
+		List<Pedido> reservasObtenidasHechasPorUnCliente = restaurante.obtenerHistorialDeReservasDeUnCliente(cliente);
 		
 		assertEquals(3,reservasObtenidasHechasPorUnCliente.size());
 	}
@@ -260,7 +260,7 @@ public class TestBase {
 		restaurante.agregarEmpleado(mesero);
 		Cliente cliente = new Cliente(1,"Juan");
 		restaurante.agregarCliente(cliente);
-		Reserva reserva = new Reserva(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva = new Pedido(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
 		restaurante.agregarReserva(reserva);
 		restaurante.realizarReservaCliente(reserva,cliente);
 		
@@ -281,11 +281,11 @@ public class TestBase {
 		restaurante.agregarCliente(cliente);
 		Cliente cliente2 = new Cliente(2,"Luis");
 		restaurante.agregarCliente(cliente2);
-		Reserva reserva = new Reserva(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva = new Pedido(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
 		restaurante.agregarReserva(reserva);
-		Reserva reserva2 = new Reserva(2,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva2 = new Pedido(2,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
 		restaurante.agregarReserva(reserva2);
-		Reserva reserva3 = new Reserva(3,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva3 = new Pedido(3,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
 		restaurante.agregarReserva(reserva3);
 		restaurante.realizarReservaCliente(reserva,cliente);
 		restaurante.realizarReservaCliente(reserva2,cliente);
@@ -301,10 +301,10 @@ public class TestBase {
 	
 	@Test
 	public void queSePuedaObtenerLaCantidadDeClientesQueFueronAlRestaurante() {
-		Reserva reserva = new Reserva(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
-		Reserva reserva2 = new Reserva(2,LocalDate.of(2024, 7, 5),LocalTime.of(16, 0));
-		Reserva reserva3 = new Reserva(3,LocalDate.of(2024, 9, 6),LocalTime.of(16, 0));
-		Reserva reserva4 = new Reserva(4,LocalDate.of(2024, 9, 20),LocalTime.of(16, 0));
+		Pedido reserva = new Pedido(1,LocalDate.of(2024, 5, 20),LocalTime.of(16, 0));
+		Pedido reserva2 = new Pedido(2,LocalDate.of(2024, 7, 5),LocalTime.of(16, 0));
+		Pedido reserva3 = new Pedido(3,LocalDate.of(2024, 9, 6),LocalTime.of(16, 0));
+		Pedido reserva4 = new Pedido(4,LocalDate.of(2024, 9, 20),LocalTime.of(16, 0));
 		restaurante.agregarReserva(reserva);
 		restaurante.agregarReserva(reserva2);
 		restaurante.agregarReserva(reserva3);
@@ -325,6 +325,13 @@ public class TestBase {
 		assertEquals(3,clientesObtenidos.size());
 	}
 	
+	@Test
+	public void queNoSePuedaDarQueHallanReservasClientesDuplicadas() {
+		//no se puede dar la misma combinacion dos veces de una reserva con un cliente
+	}
+	
+	
+	//AGREGADO HOY 21/5
 	@Test
 	public void queSePuedaCalcularElSueldoEnBaseALaAntiguedadDeUnEmpleado() {
 		
