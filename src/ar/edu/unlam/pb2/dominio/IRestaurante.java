@@ -16,5 +16,5 @@ public interface IRestaurante {
 	Boolean agregarCliente(Cliente cliente);
 	Cliente buscarUnCliente(Integer id);
 	Double calcularElSueldoEnBaseALaAntiguedadDeUnEmpleado(Empleado empleado);
-	Boolean agregarReserva(Pedido reserva);
+	Boolean agregarReserva(Reserva reserva);
 }

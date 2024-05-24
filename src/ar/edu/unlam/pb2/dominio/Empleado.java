@@ -12,13 +12,19 @@ public abstract class Empleado {
 	//cantidad de horas Integer
 	
 	
-	public Empleado(Integer codigo, String nombre, Double sueldo, LocalDate anioIngreso) {
+	public Empleado(Integer codigo, String nombre, LocalDate anioIngreso) {
 		this.codigo = codigo;
 		this.nombre = nombre;
-		this.sueldo = sueldo;
+		this.sueldo = 0.0;
 		this.anioIngreso = anioIngreso;
 	}
-
+	//abstract calcular sueldo 
+	//abstract calcular aguinaldo VEMOS
+	//abstract cobrar sueldo // que el atributo sueldoDestinadoAEmpleados (constante) baje y el sueldo
+	//del empleado aumente
+	
+	public abstract void cobrarSueldo(Double sueldo);
+	public abstract Double calcularSueldoEnBaseALaAntiguedad(Double sueldo);
 
 	public Integer getCodigo() {
 		return codigo;
@@ -32,6 +38,10 @@ public abstract class Empleado {
 
 	public Double getSueldo() {
 		return sueldo;
+	}
+	
+	public void setSueldo(Double sueldo) {
+		this.sueldo = sueldo;
 	}
 
 
@@ -58,11 +68,10 @@ public abstract class Empleado {
 		return Objects.equals(anioIngreso, other.anioIngreso) && Objects.equals(codigo, other.codigo)
 				&& Objects.equals(nombre, other.nombre) && Objects.equals(sueldo, other.sueldo);
 	}
+
+
 	
 	
 	
-	//abstract calcular sueldo 
-	//abstract calcular aguinaldo VEMOS
-	//abstract cobrar sueldo // que el atributo sueldoDestinadoAEmpleados (constante) baje y el sueldo
-	//del empleado aumente
+
 }
